@@ -1,0 +1,36 @@
+%{
+#include <stdio.h>
+%}
+
+%%
+"="       { printf("AFFECTATION\n"); }
+"KEN"     { printf("IF\n"); }        /* IF */
+"KENLE"   { printf("ELSE\n"); }      /* ELSE */
+"A9RA"    { printf("SCAN\n"); }      /* Lecture d'entrée */
+"EKTEB"   { printf("PRINT\n"); }     /* Affichage sortie */
+"+"|"-"|"*"|"/"   { printf("OPP-A\n"); }   /* Opérateurs arithmétiques */
+"<"|">="|"<="|">"|"=="|"?"  { printf("OPP-L\n"); }  /* Opérateurs logiques */
+[+-]?[0-9]+       { printf("ENTIER: %s\n", yytext); }    /* Entiers avec signe */
+[+-]?[0-9]+\.[0-9]+  { printf("FLOAT: %s\n", yytext); }  /* Flottants avec signe */
+\"[^\"]*\"    { printf("CHAINE: %s\n", yytext); }  /* Chaînes de caractères */
+[a-zA-Z_][a-zA-Z0-9_]*   { printf("VARIABLE: %s\n", yytext); }  /* Variables */
+";"       { printf("FIN INSTRUCTION\n"); }  /* Point-virgule */
+"("       { printf("Par-ouv\n"); }  /* Parenthèse ouvrante */
+")"       { printf("Par-fer\n"); }  /* Parenthèse fermante */
+"{"       { printf("Poter-ouv\n"); }  /* Accolade ouvrante */
+"}"       { printf("Poter-fer\n"); }  /* Accolade fermante */
+[0-9]+[a-zA-Z_]    { printf("ERREUR: Identificateur invalide %s\n", yytext); }
+"++"      { printf("INCREMENT\n"); }
+"--"      { printf("DECREMENT\n"); }
+[ \t\n]   ;       /* Ignore espaces, tabulations et sauts de ligne */
+.         { printf("Caractère non reconnu: %s\n", yytext); }  /* Erreur */
+%%
+
+int main() {
+    yylex();
+    return 0;
+}
+
+int yywrap() {
+    return 1;
+}
